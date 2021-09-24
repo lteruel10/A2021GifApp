@@ -5,7 +5,7 @@
 </div>
 
 
-
+# lo ideal es no tener practicamente nada en el app component
 
 
 
