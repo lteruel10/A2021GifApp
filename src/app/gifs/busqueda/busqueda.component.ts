@@ -21,6 +21,9 @@ export class BusquedaComponent implements OnInit {
   buscar( ){
     // elementRefe es un generico por eso es de tipo anY
     const valor=this.txtBuscar.nativeElement.value;
+    if(valor.trim().length===0){
+      return;
+    }
     this.gifsService.buscarGifs(valor);
   //  console.log(valor);
     this.txtBuscar.nativeElement.value='';
