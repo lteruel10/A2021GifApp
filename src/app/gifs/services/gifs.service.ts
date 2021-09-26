@@ -6,14 +6,19 @@ import { Injectable } from '@angular/core';
 })
 export class GifsService {
 
+  constructor(private http:HttpClient) { }
+
   private _historial:string[]=[];
+  private apiKey:string='api_key=';
+  private url:string='https://api.giphy.com/v1/gifs/search?';
+  private limit:string='&limit=10';
+ // TODO: cambiar tipo any por el correcto
+  public resultado:any[]=[];
+
   get historial() { 
     return [...this._historial]; 
   }
-
-  private apiKey:string='';
-  private url:string='https://api.giphy.com/v1/gifs/search?api_key='+this.apiKey+'&q=dragon ball z&limit=10';
-
+ 
   buscarGifs(query:string){
     query = query.trim().toLocaleLowerCase();
 
@@ -21,17 +26,15 @@ export class GifsService {
       this._historial.unshift(query);
       this._historial=this._historial.splice(0,9);
     }
-//    console.log(this._historial);
-    // fetch('https://api.giphy.com/v1/gifs/search?api_key=apiKey&q=dragon ball z&limit=10')
-    // .then(resp=>{
-    //   resp.json().then(data=>{
-    //     console.log(data);
-    //   })
-    // })///este es ejemplod de javascript
+    this.url=`https://api.giphy.com/v1/gifs/search?${this.apiKey}&q=${query}${this.limit}`;
+    console.log(this.url);
+    console.log(query);
+
     this.http.get(this.url).subscribe((resp:any)=>{
-      console.log(resp);
-    });
+                                        console.log(resp.data);
+                                        this.resultado=resp.data; // es donde estoy guardando el resultado
+                                      });
   }
 
-  constructor(private http:HttpClient) { }
+ 
 }
